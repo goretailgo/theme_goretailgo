@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Site-wide "Powered by GoRetailGo" strip, shown above the header on every page -->
+    <template id="powered_by_strip" inherit_id="website.layout" name="GoRetailGo Powered By Strip">
+        <xpath expr="//header" position="before">
+            <div class="grg-powered-strip">
+                <span>Powered by</span>
+                <img src="/theme_goretailgo/static/src/img/logo-white.png"
+                     alt="GoRetailGo" class="grg-powered-logo"/>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="custom_shop_template" name="GoRetailGo Custom Shop Page">
+        <t t-call="website.layout">
+
+            <!-- Client hero: navy banner design is fixed (GoRetailGo theme),
+                 but the logo/name shown inside is each tenant's own -->
+            <div class="grg-hero">
+                <div class="container">
+                    <img t-if="website.logo"
+                         t-attf-src="/web/image/website/#{website.id}/logo"
+                         alt="Logo" class="grg-hero-logo"/>
+                    <div t-else="" class="grg-hero-logo-text" t-esc="website.name"/>
+
+                    <h1 class="grg-hero-title">
+                        Everything you sell,
+                        <span class="grg-accent">one storefront</span>
+                    </h1>
+                    <p class="grg-hero-sub">
+                        Auto-generated, styled to your brand, updated the moment you add a product.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Product grid -->
+            <div id="wrap" class="container py-4">
+                <h2 class="grg-section-title mb-4">Featured products</h2>
+
+                <div class="row" t-if="products">
+                    <t t-foreach="products" t-as="product">
+                        <div class="col-md-4 col-sm-6 mb-4">
+                            <div class="card h-100 grg-product-card">
+                                <img t-attf-src="/web/image/product.template/#{product.id}/image_1920"
+                                     class="card-img-top" alt="Product Image"/>
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title" t-esc="product.name"/>
+                                    <p class="card-text grg-price" t-esc="product.list_price"/>
+                                    <a t-attf-href="/shop/product/#{product.id}"
+                                       class="btn grg-btn-primary mt-auto">
+                                        View Product
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <div t-else="" class="alert alert-info">
+                    No products published on this website yet.
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>
